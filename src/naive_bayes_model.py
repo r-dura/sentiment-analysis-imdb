@@ -10,6 +10,7 @@ class NaiveBayes:
         
     def fit(self, X, y):
         """Trains model on data. Calculates means, variances, and priors for each class"""
+        self.priors = self.calculate_prior_probs(y)
         self.unique_classes = np.unique(y)
         num_classes = len(self.unique_classes)
         num_features = X.shape[1]
@@ -22,10 +23,7 @@ class NaiveBayes:
             self.variances[idx] = X_c.var(axis=0)
         
         # Add small epsilon to variances to prevent division by zero
-        self.variances = np.maximum(self.variances, 1e-10)
-            
-        self.priors = self.calculate_prior_probs(y)
-            
+        self.variances = np.maximum(self.variances, 1e-10)            
 
     def calculate_likelihood(self, x, mean, var):
         """Calculates the Gaussian likelihood of the data with the given mean and variance"""
